@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Cell from './cell';
 
-export default class Games extends Component {
+export default class Board extends Component {
   static propTypes = {
     data: PropTypes.arrayOf(PropTypes.string).isRequired,
     frozen: PropTypes.arrayOf(PropTypes.number).isRequired,

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 
-export default class Games extends Component {
+export default class Cell extends Component {
   static propTypes = {
     value: PropTypes.string.isRequired,
     index: PropTypes.number.isRequired,

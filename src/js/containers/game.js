@@ -10,7 +10,7 @@ import { newGame, activateCell, updateCell } from '../store/actions';
   highlight: state.highlight,
   prevent: state.prevent
 }))
-export default class Games extends Component {
+export default class Game extends Component {
   componentWillMount() {
     let { dispatch } = this.props;
     dispatch(newGame());
@@ -26,9 +26,34 @@ export default class Games extends Component {
     dispatch(updateCell(index, value));
   }
 
+  computeEmptySlots() {
+    return this.props.board.filter(x => ![...'123456789'].includes(x)).length;
+  }
+
+  getStatusBar() {
+    let emptyCount = this.props.board.filter(x => ![...'123456789'].includes(x)).length;
+    let complete = emptyCount === 0;
+    if (complete) {
+      let { dispatch } = this.props;
+      return (
+        <div className="game-status">
+          <span>Great Job!!</span>
+          <span className="link" onClick={() => dispatch(newGame())}>Play Next Board</span>
+        </div>
+      )
+    } else {
+      return (
+        <div className="game-status">
+          <span>Slots left: {emptyCount}</span>
+        </div>
+      )
+    }
+  }
+
   render() {
     return (
       <div>
+        {this.getStatusBar()}
         <Board
           data={this.props.board}
           frozen={this.props.frozen}
