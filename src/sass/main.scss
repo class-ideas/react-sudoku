@@ -1,0 +1,69 @@
+@import url(https://fonts.googleapis.com/css?family=Lato);
+
+$black: black;
+$red: #F8432E;
+$frozen: #e9e9e9;
+$highlight: #F5DF97;
+
+$thick: 4px;
+$thin: 1px;
+
+$cellSize: 40px;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Lato, Helvetica, Arial, sans-serif;
+}
+
+.board {
+  border: $thick solid $black;
+  width: $cellSize * 9;
+  height: $cellSize * 9;
+  box-sizing: content-box;
+
+  .cell {
+    width: $cellSize;
+    height: $cellSize;
+    line-height: $cellSize;
+    text-align: center;
+    display: inline-block;
+    border-right: $thin solid $black;
+    border-bottom: $thin solid $black;
+
+    &.frozen {
+      background: $frozen;
+    }
+    &.highlighted {
+      color: $red;
+    }
+
+    &:nth-child(9n) {
+      border-right: none;
+    }
+    &:nth-child(n+73) {
+      border-bottom: none;
+    }
+    &:nth-child(3n) {
+      border-right-width: $thick;
+    }
+    &:nth-child(n+19):not(:nth-child(n+28)) {
+      border-bottom-width: $thick;
+    }
+    &:nth-child(n+46):not(:nth-child(n+55)) {
+      border-bottom-width: $thick;
+    }
+
+    .text-field {
+      width: 100%;
+      height: 100%;
+      vertical-align: top;
+      border: none;
+      background: #F5DF97;
+      text-align: center;
+      font-size: 18px;
+    }
+  }
+}

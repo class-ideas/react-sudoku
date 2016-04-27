@@ -1,0 +1,43 @@
+{
+  "name": "tiy-project",
+  "version": "1.0.0",
+  "description": "A tiy project made from template",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "predist:all": "mkdir -p dist dist/js dist/css dist/images",
+    "dist:all": "npm run dist:html && npm run dist:css && npm run dist:js && npm run dist:images && npm run dist:font-awesome",
+    "dist:images": "cp src/images/* dist/images/",
+    "dist:html": "cp src/html/*.html dist/",
+    "dist:js:watch": "watchify -v -d -t babelify  src/js/index.js -o dist/js/bundle.js",
+    "dist:js": "browserify src/js/index.js -d -t [ babelify ] -o dist/js/bundle.js",
+    "dist:css": "node-sass src/sass/main.scss --source-map-embed -o dist/css --include-path 'node_modules'",
+    "dist:clean": "rm -rf \"$(npm prefix)/dist\"",
+    "dist:font-awesome": "[ -d \"node_modules/font-awesome/fonts\" ] && npm run copy:fonts || echo ''",
+    "copy:fonts": "cp -R node_modules/font-awesome/fonts dist/",
+    "prewatch": "npm run dist:all",
+    "watch": "watchman-make --make 'npm run' -p 'src/sass/*' -t dist:css -p 'src/html/*' -t dist:html -p 'src/images/*' -t dist:images",
+    "server": "http-server dist",
+    "develop": "parallelshell 'npm run watch' 'npm run server' 'npm run dist:js:watch'",
+    "deploy": "surge -p \"$(npm prefix)/dist\" -d \"tiy-2016q1-$(whoami)-${PWD##*/}.surge.sh\""
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-stage-0": "^6.3.13",
+    "babelify": "^7.2.0",
+    "node-sass": "^3.4.2",
+    "watchify": "^3.7.0"
+  },
+  "dependencies": {
+    "classnames": "^2.2.4",
+    "immutable": "^3.8.1",
+    "react": "^0.14.8",
+    "react-dom": "^0.14.8",
+    "react-redux": "^4.4.5",
+    "react-router": "^2.3.0",
+    "redux": "^3.5.2"
+  }
+}
