@@ -13,33 +13,33 @@ function uniq(arr) {
 }
 
 export function getRowNumber(cellIndex) {
-  return 1 + Math.floor(cellIndex / BOARD_SIZE);
+  return Math.floor(cellIndex / BOARD_SIZE);
 }
 
 export function getColNumber(cellIndex) {
-  return 1 + (cellIndex % BOARD_SIZE);
+  return cellIndex % BOARD_SIZE;
 }
 
 export function getBoxRowNumber(cellIndex) {
   let rowNumber = getRowNumber(cellIndex);
-  return Math.ceil(rowNumber / BOX_SIZE);
+  return Math.floor(rowNumber / BOX_SIZE);
 }
 
 export function getBoxColNumber(cellIndex) {
   let colNumber = getColNumber(cellIndex);
-  return Math.ceil(colNumber / BOX_SIZE);
+  return Math.floor(colNumber / BOX_SIZE);
 }
 
 export function getBoxIndex(cellIndex) {
   let boxRowNum = getBoxRowNumber(cellIndex);
   let boxColNum = getBoxColNumber(cellIndex);
-  return ((boxRowNum - 1) * BOX_SIZE) + boxColNum;
+  return (boxRowNum * BOX_SIZE) + boxColNum;
 }
 
 export function getCellsInRow(cellIndex, allCells) {
   let rowNumber = getRowNumber(cellIndex);
-  let start = (rowNumber - 1) * BOARD_SIZE;
-  let stop  = rowNumber * BOARD_SIZE;
+  let start = (rowNumber + 0) * BOARD_SIZE;
+  let stop  = (rowNumber + 1) * BOARD_SIZE;
   return { values: allCells.slice(start, stop), indices: range(start, stop) };
 }
 
@@ -47,7 +47,7 @@ export function getCellsInCol(cellIndex, allCells) {
   let colNumber = getColNumber(cellIndex);
   let cellsInCol = [];
   let indicesInCol = []
-  for (let i = colNumber-1; i < BOARD_SIZE**2; i += BOARD_SIZE) {
+  for (let i = colNumber; i < BOARD_SIZE**2; i += BOARD_SIZE) {
     cellsInCol.push( allCells[i] );
     indicesInCol.push(i);
   }
@@ -55,7 +55,6 @@ export function getCellsInCol(cellIndex, allCells) {
 }
 
 export function getCellsInBox(cellIndex, allCells) {
-  // TODO figure out.
   let cellsInBox = [];
   let indicesInBox = [];
 
@@ -63,8 +62,8 @@ export function getCellsInBox(cellIndex, allCells) {
   let boxColNum = getBoxColNumber(cellIndex);
 
   for (let i = 0; i < BOX_SIZE; i++) {
-    let start = ((boxColNum - 1) * BOX_SIZE) + ((boxRowNum - 1) * (BOARD_SIZE * BOX_SIZE)) + (i * BOARD_SIZE);
-    let stop  = ((boxColNum - 0) * BOX_SIZE) + ((boxRowNum - 1) * (BOARD_SIZE * BOX_SIZE)) + (i * BOARD_SIZE);
+    let start = ((boxColNum + 0) * BOX_SIZE) + (boxRowNum * (BOARD_SIZE * BOX_SIZE)) + (i * BOARD_SIZE);
+    let stop  = ((boxColNum + 1) * BOX_SIZE) + (boxRowNum * (BOARD_SIZE * BOX_SIZE)) + (i * BOARD_SIZE);
     cellsInBox = cellsInBox.concat(allCells.slice(start, stop));
     indicesInBox = indicesInBox.concat(range(start, stop));
   }
