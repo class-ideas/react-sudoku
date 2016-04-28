@@ -19,7 +19,7 @@
     "watch": "watchman-make --make 'npm run' -p 'src/sass/*' -t dist:css -p 'src/html/*' -t dist:html -p 'src/images/*' -t dist:images",
     "server": "http-server dist",
     "develop": "parallelshell 'npm run watch' 'npm run server' 'npm run dist:js:watch'",
-    "deploy": "surge -p \"$(npm prefix)/dist\" -d \"tiy-2016q1-$(whoami)-${PWD##*/}.surge.sh\""
+    "deploy": "surge -p \"$(npm prefix)/dist\" -d \"sudoku.surge.sh\""
   },
   "author": "",
   "license": "ISC",

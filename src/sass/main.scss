@@ -12,9 +12,6 @@ $cellSize: 40px;
 
 * {
   box-sizing: border-box;
-}
-
-body {
   font-family: Lato, Helvetica, Arial, sans-serif;
 }
 
@@ -26,11 +23,14 @@ body {
   font-size: 18px;
   margin-bottom: 4px;
   .link {
-    color: $red;
-    text-decoration: underline;
-    cursor: pointer;
     margin-left: 20px;
   }
+}
+
+.link, a {
+  color: $red;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .board {
@@ -41,6 +41,8 @@ body {
   box-sizing: content-box;
 
   .cell {
+    font-weight: 900;
+    font-size: 24px;
     width: $cellSize;
     height: $cellSize;
     line-height: $cellSize;
@@ -85,7 +87,8 @@ body {
       background: #F5DF97;
       outline-color: $red;
       text-align: center;
-      font-size: 18px;
+      font-weight: 900;
+      font-size: 24px;
     }
   }
 }
