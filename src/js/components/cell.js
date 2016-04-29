@@ -16,7 +16,8 @@ export default class Cell extends Component {
   constructor(props, ...args) {
     super(props, ...args);
     this.state = {
-      inputText: [...'123456789'].includes(props.value) ? props.value : ''
+      inputText: [...'123456789'].includes(props.value) ? props.value : '',
+      showNo: false
     }
   }
 
@@ -34,6 +35,8 @@ export default class Cell extends Component {
       let inputText = value[value.length-1];
       if (!prevent.includes(inputText) && [...'123456789'].includes(inputText)) {
         this.setState({inputText});
+      } else {
+        this.flashNoSymbol();
       }
     } else {
       this.setState({inputText:''});
@@ -76,6 +79,11 @@ export default class Cell extends Component {
     }
   }
 
+  flashNoSymbol() {
+    this.setState({showNo:true});
+    setTimeout(() => this.setState({showNo:false}), 0);
+  }
+
   render() {
     let { frozen, highlighted } = this.props;
 
@@ -83,6 +91,7 @@ export default class Cell extends Component {
     return (
       <div onClick={::this.clickHandler} className={className}>
         {this.getContents()}
+        <span className={this.state.showNo ? 'show no' : 'no'}> ⃠</span>
       </div>
     )
   }
