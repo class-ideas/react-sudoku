@@ -8,12 +8,14 @@ export default class Board extends Component {
     highlight: PropTypes.arrayOf(PropTypes.number).isRequired,
     prevent: PropTypes.arrayOf(PropTypes.string).isRequired,
     active: PropTypes.number,
+    duplicate: PropTypes.string,
     onActivate: PropTypes.func.isRequired,
-    onUpdate: PropTypes.func.isRequired
+    onUpdate: PropTypes.func.isRequired,
+    onDuplicate: PropTypes.func.isRequired
   }
 
   getCell(val, idx) {
-    let { frozen, highlight, prevent, active, onActivate, onUpdate } = this.props;
+    let { frozen, highlight, prevent, active, duplicate, onActivate, onUpdate, onDuplicate } = this.props;
     return (
       <Cell
         key={idx}
@@ -22,9 +24,11 @@ export default class Board extends Component {
         prevent={prevent}
         index={idx}
         value={val}
+        duplicate={duplicate === val && highlight.includes(idx)}
         active={active === idx}
         onActivate={onActivate}
         onUpdate={onUpdate}
+        onDuplicate={onDuplicate}
       />
     )
   }

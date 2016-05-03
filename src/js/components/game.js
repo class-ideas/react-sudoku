@@ -12,7 +12,8 @@ export default class Game extends Component {
       frozen: [],
       highlight: [],
       prevent: [],
-      active: null
+      active: null,
+      duplicate: null
     }
   }
 
@@ -54,8 +55,15 @@ export default class Game extends Component {
     this.updateCell(index, value);
   }
 
+  duplicateHandler(value) {
+    this.setState({duplicate: value});
+    setTimeout(() => {
+      this.setState({duplicate: null});
+    }, 300);
+  }
+
   render() {
-    let { board, frozen, highlight, prevent, active } = this.state;
+    let { board, frozen, highlight, prevent, active, duplicate } = this.state;
     return (
       <div>
         <h1>Sudoku</h1>
@@ -69,8 +77,10 @@ export default class Game extends Component {
           highlight={highlight}
           prevent={prevent}
           active={active}
+          duplicate={duplicate}
           onActivate={::this.activateHandler}
           onUpdate={::this.updateHandler}
+          onDuplicate={::this.duplicateHandler}
         />
       </div>
     )

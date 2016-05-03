@@ -61,6 +61,11 @@ $cellSize: 40px;
       &.frozen {
         background: lighten(#2F9FF7, 25%);
       }
+
+      &.duplicate {
+        background: $red;
+        color: lighten(#2F9FF7, 35%);
+      }
     }
 
     &:nth-child(9n) {

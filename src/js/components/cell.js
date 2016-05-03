@@ -10,15 +10,16 @@ export default class Cell extends Component {
     highlighted: PropTypes.bool.isRequired,
     prevent: PropTypes.arrayOf(PropTypes.string).isRequired,
     active: PropTypes.bool.isRequired,
+    duplicate: PropTypes.bool.isRequired,
     onActivate: PropTypes.func.isRequired,
-    onUpdate: PropTypes.func.isRequired
+    onUpdate: PropTypes.func.isRequired,
+    onDuplicate: PropTypes.func.isRequired
   }
 
   constructor(props, ...args) {
     super(props, ...args);
     this.state = {
-      inputText: isEntryValid(props.value) ? props.value : '',
-      showNo: false
+      inputText: isEntryValid(props.value) ? props.value : ''
     }
   }
 
@@ -30,14 +31,17 @@ export default class Cell extends Component {
   }
 
   changeHandler(event) {
-    let prevent = this.props.prevent;
+    let { prevent, onDuplicate } = this.props;
     let value = event.target.value;
+
     if (value.length) {
       let inputText = value[value.length-1];
       if (!prevent.includes(inputText) && isEntryValid(inputText)) {
         this.setState({inputText});
       } else {
-        this.flashNoSymbol();
+        if (isEntryValid(inputText)) {
+          onDuplicate(inputText);
+        }
       }
     } else {
       this.setState({inputText:''});
@@ -80,19 +84,13 @@ export default class Cell extends Component {
     }
   }
 
-  flashNoSymbol() {
-    this.setState({showNo:true});
-    setTimeout(() => this.setState({showNo:false}), 0);
-  }
-
   render() {
-    let { frozen, highlighted } = this.props;
+    let { frozen, highlighted, duplicate } = this.props;
+    let className = classnames('cell', { frozen, highlighted, duplicate });
 
-    let className = classnames('cell', { frozen, highlighted });
     return (
       <div onClick={::this.clickHandler} className={className}>
         {this.getContents()}
-        <span className={this.state.showNo ? 'show no' : 'no'}> ⃠</span>
       </div>
     )
   }
