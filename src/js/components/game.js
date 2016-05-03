@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Board from '../components/board';
-import { getRandomBoard, getRelatedCells } from '../sudoku';
+import { getRandomBoard, getRelatedCells, isEntryValid, EMPTY_CHAR }
+  from '../sudoku';
 
 export default class Game extends Component {
   constructor(...args) {
@@ -16,8 +17,8 @@ export default class Game extends Component {
 
   newGame() {
     const board = getRandomBoard();
-    const frozen = board.map((x,i) => {
-      return [..."123456789"].includes(x) ? i : -1;
+    const frozen = board.map((x, i) => {
+      return isEntryValid(x) ? i : -1;
     }).filter(x => x >= 0);
 
     this.setState({board, frozen});
@@ -29,12 +30,8 @@ export default class Game extends Component {
   }
 
   updateCell(cellIndex, value) {
-    if (!value) {
-      value = '\u00a0';
-    }
-
     let { board } = this.state;
-    board[cellIndex] = value;
+    board[cellIndex] = value || EMPTY_CHAR;
 
     this.setState({
       board,
@@ -56,12 +53,8 @@ export default class Game extends Component {
     this.updateCell(index, value);
   }
 
-  computeEmptySlots() {
-    return this.state.board.filter(x => ![...'123456789'].includes(x)).length;
-  }
-
   getStatusBar() {
-    let emptyCount = this.state.board.filter(x => ![...'123456789'].includes(x)).length;
+    let emptyCount = this.state.board.filter(x => !isEntryValid(x)).length;
     let complete = emptyCount === 0;
     if (complete) {
       return (

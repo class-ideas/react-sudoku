@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
+import { isEntryValid } from '../sudoku';
 
 export default class Cell extends Component {
   static propTypes = {
@@ -16,7 +17,7 @@ export default class Cell extends Component {
   constructor(props, ...args) {
     super(props, ...args);
     this.state = {
-      inputText: [...'123456789'].includes(props.value) ? props.value : '',
+      inputText: isEntryValid(props.value) ? props.value : '',
       showNo: false
     }
   }
@@ -33,7 +34,7 @@ export default class Cell extends Component {
     let value = event.target.value;
     if (value.length) {
       let inputText = value[value.length-1];
-      if (!prevent.includes(inputText) && [...'123456789'].includes(inputText)) {
+      if (!prevent.includes(inputText) && isEntryValid(inputText)) {
         this.setState({inputText});
       } else {
         this.flashNoSymbol();
